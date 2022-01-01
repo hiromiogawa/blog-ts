@@ -1,6 +1,7 @@
 import { useState, memo, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CategoriesContext } from './providers/CategoriesProvider';
+import { LoadFlugContext } from './providers/LoadFlugProvider';
 import { apiUrl } from '../setting/post';
 import { Scontents } from '../style/commonStyle';
 import { useGetCategorySlug } from '../hook/useGetCategorySlug';
@@ -17,19 +18,18 @@ type postsDataType = {
     category_name: {
         key: string
     }[]
-}
+};
 
 type propsType = {
     page: number,
     perPage: number,
-    pageNavi: boolean,
     category: string
-}
-
+};
 
 export const GetPostList = memo((props: propsType) => {
-    const { page, perPage, pageNavi, category } = props;
+    const { page, perPage, category } = props;
     const categories = useContext(CategoriesContext);
+    const { setLoadFlug } = useContext(LoadFlugContext);
     const [ totalPage, setTotalpage] = useState<number>(1);
     const [ url, setUrl ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType[]>([]);
@@ -39,10 +39,12 @@ export const GetPostList = memo((props: propsType) => {
         axios.get(url).then((res) => {
             setTotalpage(Number(res.headers["x-wp-totalpages"]));
             setPostsData(res.data);
+            setLoadFlug(false);
         })
-    }
+    };
 
     useEffect(() => {
+        setLoadFlug(true);
         if(categories) {
             const result = categories.find((value) => value.slug === category);
             if(result) {

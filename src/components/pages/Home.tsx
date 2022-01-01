@@ -6,7 +6,7 @@ export const Home: FC = memo(() => {
 
     return (
         <>
-            <GetPostList page={1} perPage={12} pageNavi={true} category="all" />
+            <GetPostList page={1} perPage={12} category="all" />
         </>
     );
 });

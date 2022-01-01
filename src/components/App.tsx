@@ -1,14 +1,17 @@
-import { FC, memo } from 'react';
+import { FC, useContext, memo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { LoadFlugContext } from './providers/LoadFlugProvider';
 import { Header } from './template/Header';
 import { Home } from './pages/Home';
 import { PostList } from './pages/PostList';
 import { PostDetail } from './pages/PostDetail';
 
 export const App: FC = memo(() => {
+    const { loadFlug } = useContext(LoadFlugContext);
 
     return (
         <>
+        {loadFlug && <div>Loading</div> }
             <Header />
             <Routes>
                 <Route path='/' element={<Home/>} />

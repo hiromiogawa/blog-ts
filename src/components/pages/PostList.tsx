@@ -13,7 +13,7 @@ export const PostList: FC = memo(() => {
 
     return (
         <>
-            <GetPostList page={Number(page)} perPage={12} pageNavi={true} category={category as string} />
+            <GetPostList page={Number(page)} perPage={12} category={category as string} />
         </>
     );
 });

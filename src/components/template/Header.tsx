@@ -21,7 +21,7 @@ export const Header: FC = memo(() => {
         <header>
             <nav>
                 <ul>
-                    <li><Link to="/post/all/1">全て</Link></li>
+                    <li><Link to="/">全て</Link></li>
                     { categoryList }
                 </ul>
             </nav>

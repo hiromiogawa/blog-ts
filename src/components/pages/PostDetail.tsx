@@ -1,13 +1,14 @@
 import { FC, useState, useEffect, memo, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CategoriesContext } from '../providers/CategoriesProvider';
+import { LoadFlugContext } from '../providers/LoadFlugProvider';
 import { useGetCategorySlug } from '../../hook/useGetCategorySlug';
 import { apiUrl } from '../../setting/post';
 import axios from 'axios';
 
 type urlParams = {
     id: string
-}
+};
 
 type postsDataType = {
     id: number,
@@ -24,10 +25,11 @@ type postsDataType = {
     category_name: {
         key: string
     }[]
-}
+};
 
 export const PostDetail: FC = memo(() => {
     const categories = useContext(CategoriesContext);
+    const { setLoadFlug } = useContext(LoadFlugContext);
     const { getCategorySlug } = useGetCategorySlug();
     const [ url, setUrl ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType>();
@@ -36,10 +38,12 @@ export const PostDetail: FC = memo(() => {
     const getJson = (url: string) => {
         axios.get(url).then((res) => {
             setPostsData(res.data);
+            setLoadFlug(false);
         })
-    }
+    };
 
     useEffect(() => {
+        setLoadFlug(true);
         if(categories) {
             setUrl(`${apiUrl}posts/${id}`);
         }
