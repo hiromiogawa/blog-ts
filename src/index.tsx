@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { LoadFlugProvider } from './components/providers/LoadFlugProvider';
 import { createGlobalStyle } from 'styled-components';
 import { CategorysProvider } from './components/providers/CategoriesProvider';
 import { App } from './components/App';
@@ -14,10 +15,11 @@ const ResetStyle = createGlobalStyle`
 
 ReactDOM.render((
     <BrowserRouter>
-      <CategorysProvider>
-        <ScrollToTop />
-        <App />
-      </CategorysProvider>
-
+      <LoadFlugProvider>
+        <CategorysProvider>
+          <ScrollToTop />
+          <App />
+        </CategorysProvider>
+      </LoadFlugProvider>
     </BrowserRouter>
 ), document.getElementById('root'));

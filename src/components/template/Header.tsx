@@ -1,7 +1,6 @@
-import { FC, useState, memo, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { FC, memo, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { CategoriesContext } from '../providers/CategoriesProvider'; 
-import axios from 'axios';
 
 type urlParams = {
     page: string,

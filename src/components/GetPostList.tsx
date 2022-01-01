@@ -1,14 +1,10 @@
-import { FC, useState, memo, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useState, memo, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { CategoriesContext } from './providers/CategoriesProvider';
 import { apiUrl } from '../setting/post';
 import { Scontents } from '../style/commonStyle';
+import { useGetCategorySlug } from '../hook/useGetCategorySlug';
 import axios from 'axios';
-
-type urlParams = {
-    page: string,
-    category: string
-}
 
 type postsDataType = {
     id: number,
@@ -37,6 +33,7 @@ export const GetPostList = memo((props: propsType) => {
     const [ totalPage, setTotalpage] = useState<number>(1);
     const [ url, setUrl ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType[]>([]);
+    const { getCategorySlug } = useGetCategorySlug();
 
     const getJson = (url: string) => {
         axios.get(url).then((res) => {
@@ -44,7 +41,6 @@ export const GetPostList = memo((props: propsType) => {
             setPostsData(res.data);
         })
     }
-        
 
     useEffect(() => {
         if(categories) {
@@ -63,11 +59,6 @@ export const GetPostList = memo((props: propsType) => {
         }
     }, [url]);
 
-    const getCatSlug = (name: {}) => {
-        const result = categories.find((value) => value.name === name);
-        return result?.slug;
-    };
-
     const recordList = postsData.map((value,i) => (
         <li key={i}>
             <article>
@@ -78,7 +69,7 @@ export const GetPostList = memo((props: propsType) => {
             </Link>
             <ul className="category">
                 {value.category_name.map((cat, i, []) =>
-                <li key={i}><Link to={`/post/${getCatSlug(cat)}/1`}>{cat}</Link></li>
+                <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
                 )}
             </ul>
             </article>

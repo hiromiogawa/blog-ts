@@ -1,6 +1,5 @@
-import { FC, useState, useEffect, memo, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { CategoriesContext } from '../providers/CategoriesProvider';
+import { FC, memo } from 'react';
+import { useParams } from 'react-router-dom';
 import { GetPostList } from '../GetPostList';
 
 type urlParams = {
@@ -9,7 +8,6 @@ type urlParams = {
 }
 
 export const PostList: FC = memo(() => {
-    const categories = useContext(CategoriesContext);
     const { page, category } = useParams<urlParams>();
 
 
