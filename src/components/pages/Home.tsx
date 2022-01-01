@@ -1,10 +1,8 @@
-import { FC, useState, memo, useContext } from 'react';
-import { CategoriesContext } from '../providers/CategoriesProvider';
+import { FC, memo } from 'react';
 import { GetPostList } from '../GetPostList';
 
 
 export const Home: FC = memo(() => {
-    const categories = useContext(CategoriesContext);
 
     return (
         <>

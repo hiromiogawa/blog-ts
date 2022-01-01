@@ -55,7 +55,7 @@ export const GetPostList = memo((props: propsType) => {
                 setUrl(`${apiUrl}posts?_embed&per_page=${perPage}&page=${page}`);
             }
         }
-    }, [categories]);
+    }, [categories, page, category]);
 
     useEffect(() => {
         if (url) {
