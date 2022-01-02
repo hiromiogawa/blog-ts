@@ -24,7 +24,17 @@ type postsDataType = {
     }[],
     category_name: {
         key: string
-    }[]
+    }[],
+    acf: {
+        article01: {
+            ID: string,
+            post_title: string
+        },
+        article02: {
+            ID: string,
+            post_title: string
+        }
+    }
 };
 
 export const PostDetail: FC = memo(() => {
@@ -76,6 +86,13 @@ export const PostDetail: FC = memo(() => {
                         <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
                     )}</ul>
                     <div dangerouslySetInnerHTML={{ __html: postsData.content.rendered }} />
+
+                    {postsData.acf.article01 &&
+                        <Link to={`/post/detail/${postsData.acf.article01.ID}`}>{postsData.acf.article01.post_title}</Link>
+                    }
+                    {postsData.acf.article02 &&
+                        <Link to={`/post/detail/${postsData.acf.article02.ID}`}>{postsData.acf.article02.post_title}</Link>
+                    }
                 </article>
                 
             }

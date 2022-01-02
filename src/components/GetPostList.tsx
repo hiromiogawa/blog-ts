@@ -1,5 +1,5 @@
 import { useState, memo, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CategoriesContext } from './providers/CategoriesProvider';
 import { LoadFlugContext } from './providers/LoadFlugProvider';
 import { apiUrl } from '../setting/setting';
@@ -17,7 +17,10 @@ type postsDataType = {
     }[],
     category_name: {
         key: string
-    }[]
+    }[],
+    acf: {
+        [s: string]: string
+    }
 };
 
 type propsType = {
@@ -30,10 +33,13 @@ export const GetPostList = memo((props: propsType) => {
     const { page, perPage, category } = props;
     const categories = useContext(CategoriesContext);
     const { setLoadFlug } = useContext(LoadFlugContext);
-    const [ totalPage, setTotalpage] = useState<number>(1);
+    const [ totalPage, setTotalpage] = useState<number>(0);
     const [ url, setUrl ] = useState<string>();
+    const [ inputText, setInputText ] = useState<string>();
+    const [ serchText, setSerchText ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType[]>([]);
     const { getCategorySlug } = useGetCategorySlug();
+    const navigate = useNavigate();
 
     const getJson = (url: string) => {
         axios.get(url).then((res) => {
@@ -48,12 +54,16 @@ export const GetPostList = memo((props: propsType) => {
         if(categories) {
             const result = categories.find((value) => value.slug === category);
             if(result) {
-                setUrl(`${apiUrl}posts?_embed&per_page=${perPage}&page=${page}&categories=${result.id}`);
+                setSerchText("");
+                setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}&categories=${result.id}`);
             } else if (category == 'all') {
-                setUrl(`${apiUrl}posts?_embed&per_page=${perPage}&page=${page}`);
+                setSerchText("");
+                setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}`);
+            } else if (category == "serch") {
+                setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}&search=${inputText}`);
             }
         }
-    }, [categories, page, category]);
+    }, [categories, page, category, serchText]);
 
     useEffect(() => {
         if (url) {
@@ -65,11 +75,14 @@ export const GetPostList = memo((props: propsType) => {
         <li key={i}>
             <article>
             <Link to={`/post/detail/${value.id}`}>
-                <div className="txt-area">
-                    <h2 className="title">{value.title.rendered}</h2>
+                <div>
+                    <img src={value.acf.thumb} alt="" />
+                </div>
+                <div>
+                    <h2>{value.title.rendered}</h2>
                 </div>
             </Link>
-            <ul className="category">
+            <ul>
                 {value.category_name.map((cat, i, []) =>
                 <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
                 )}
@@ -127,15 +140,34 @@ export const GetPostList = memo((props: propsType) => {
         return pageNation;
     };
 
+
+    // 検索
+    const doChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputText(event.target.value);
+    };
+
+    const doAction = () => {
+        setSerchText(inputText);
+        navigate(`/post/serch/${inputText}/1`);
+    }   
+
     return (
         <article>
             <Scontents>
-                <ul>
-                    { recordList }
-                </ul>
-                <ol>
-                    { getPageNation(totalPage) }
-                </ol>
+                {serchText &&  <p>検索:{serchText}</p>}
+                <input type="text" onChange={doChange} />
+                <button onClick={doAction}>Click</button>
+                {postsData.length ? 
+                    <div>
+                        <ul>{ recordList }</ul>
+                        <ol>{ getPageNation(totalPage) }</ol>
+                    </div> : 
+                    <div>
+                        <p>該当の記事がありません</p>
+                        <Link to="/">トップに戻る</Link>
+                    </div>
+                }
+            
             </Scontents>
         </article>
     );
