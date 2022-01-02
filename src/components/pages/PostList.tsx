@@ -1,6 +1,7 @@
-import { FC, memo } from 'react';
-import { useParams } from 'react-router-dom';
+import { FC, memo, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { GetPostList } from '../GetPostList';
+import { siteName } from '../../setting/setting';
 
 type urlParams = {
     page: string,
@@ -9,6 +10,14 @@ type urlParams = {
 
 export const PostList: FC = memo(() => {
     const { page, category } = useParams<urlParams>();
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        document.title = `${category} | ${siteName}`;
+        window.gtag('config', 'G-GCE0NCNRNG', {
+			'page_path': pathname
+		});
+    }, [ page, category ])
 
 
     return (

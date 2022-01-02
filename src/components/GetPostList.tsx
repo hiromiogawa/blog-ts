@@ -2,7 +2,7 @@ import { useState, memo, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CategoriesContext } from './providers/CategoriesProvider';
 import { LoadFlugContext } from './providers/LoadFlugProvider';
-import { apiUrl } from '../setting/post';
+import { apiUrl } from '../setting/setting';
 import { Scontents } from '../style/commonStyle';
 import { useGetCategorySlug } from '../hook/useGetCategorySlug';
 import axios from 'axios';
@@ -124,7 +124,6 @@ export const GetPostList = memo((props: propsType) => {
                 )            
             }
         }
-
         return pageNation;
     };
 

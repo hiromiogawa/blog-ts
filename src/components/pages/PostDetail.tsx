@@ -1,11 +1,11 @@
 import { FC, useState, useEffect, memo, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { CategoriesContext } from '../providers/CategoriesProvider';
 import { LoadFlugContext } from '../providers/LoadFlugProvider';
 import { useGetCategorySlug } from '../../hook/useGetCategorySlug';
-import { apiUrl } from '../../setting/post';
+import { apiUrl } from '../../setting/setting';
 import axios from 'axios';
-
+import { siteName } from '../../setting/setting';
 type urlParams = {
     id: string
 };
@@ -34,12 +34,15 @@ export const PostDetail: FC = memo(() => {
     const [ url, setUrl ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType>();
     const { id } = useParams<urlParams>();
+    const { pathname } = useLocation();
 
     const getJson = (url: string) => {
         axios.get(url).then((res) => {
             setPostsData(res.data);
             setLoadFlug(false);
-        })
+        });
+
+        
     };
 
     useEffect(() => {
@@ -54,6 +57,15 @@ export const PostDetail: FC = memo(() => {
             getJson(url);
         }
     }, [url]);
+
+    useEffect(() => {
+        if (postsData) {
+            document.title = `${postsData.title.rendered} | ${siteName}`;
+            window.gtag('config', 'G-GCE0NCNRNG', {
+                'page_path': pathname
+            });
+        };
+    }, [postsData]);
 
     return (
         <>

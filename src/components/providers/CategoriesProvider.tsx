@@ -1,5 +1,5 @@
 import { createContext, useState, FC, useEffect } from "react";
-import { apiUrl } from "../../setting/post";
+import { apiUrl } from "../../setting/setting";
 import axios from 'axios';
 
 type CategoryType = {
