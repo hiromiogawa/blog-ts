@@ -1,10 +1,10 @@
 import { css, createGlobalStyle } from 'styled-components'
 import { Color } from './styleSetting'
 
-const bgColor = Color.white;
-const fontColor = Color.black01;
+const bgColor = Color.black01;
+const fontColor = Color.white;
 const borderColor = Color.gray;
-const linkColor = Color.blue01;
+const linkColor = Color.green01;
 
 export const reset = css`
 /* reset css
@@ -64,7 +64,7 @@ hr {
 	padding: 0;
 }
 
-ul {
+ul, ol {
 	list-style: none;
 }
 

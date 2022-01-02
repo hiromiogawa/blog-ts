@@ -4,6 +4,7 @@ import { LoadFlugProvider } from './components/providers/LoadFlugProvider';
 import { createGlobalStyle } from 'styled-components';
 import { CategorysProvider } from './components/providers/CategoriesProvider';
 import { App } from './components/App';
+import { FontStyles } from "./style/fontStyle";
 import { reset } from './style/reset'
 import { ScrollToTop } from './components/module/ScrollToTop';
 
@@ -17,6 +18,8 @@ ReactDOM.render((
     <BrowserRouter>
       <LoadFlugProvider>
         <CategorysProvider>
+          <ResetStyle />
+          <FontStyles />
           <ScrollToTop />
           <App />
         </CategorysProvider>

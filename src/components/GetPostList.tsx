@@ -6,6 +6,8 @@ import { apiUrl } from '../setting/setting';
 import { Scontents } from '../style/commonStyle';
 import { useGetCategorySlug } from '../hook/useGetCategorySlug';
 import axios from 'axios';
+import styled from 'styled-components';
+import { Color } from '../style/styleSetting'
 
 type postsDataType = {
     id: number,
@@ -26,17 +28,17 @@ type postsDataType = {
 type propsType = {
     page: number,
     perPage: number,
-    category: string
+    category: string,
+    serchText?: string
 };
 
 export const GetPostList = memo((props: propsType) => {
-    const { page, perPage, category } = props;
+    const { page, perPage, category, serchText } = props;
     const categories = useContext(CategoriesContext);
-    const { setLoadFlug } = useContext(LoadFlugContext);
+    const { loadFlug ,setLoadFlug } = useContext(LoadFlugContext);
     const [ totalPage, setTotalpage] = useState<number>(0);
     const [ url, setUrl ] = useState<string>();
     const [ inputText, setInputText ] = useState<string>();
-    const [ serchText, setSerchText ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType[]>([]);
     const { getCategorySlug } = useGetCategorySlug();
     const navigate = useNavigate();
@@ -54,10 +56,8 @@ export const GetPostList = memo((props: propsType) => {
         if(categories) {
             const result = categories.find((value) => value.slug === category);
             if(result) {
-                setSerchText("");
                 setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}&categories=${result.id}`);
             } else if (category == 'all') {
-                setSerchText("");
                 setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}`);
             } else if (category == "serch") {
                 setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}&search=${inputText}`);
@@ -143,32 +143,66 @@ export const GetPostList = memo((props: propsType) => {
 
     // 検索
     const doChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputText(event.target.value);
+        const value = event.target.value;
+            setInputText(value);
     };
 
     const doAction = () => {
-        setSerchText(inputText);
         navigate(`/post/serch/${inputText}/1`);
     }   
 
     return (
         <article>
             <Scontents>
-                {serchText &&  <p>検索:{serchText}</p>}
-                <input type="text" onChange={doChange} />
-                <button onClick={doAction}>Click</button>
-                {postsData.length ? 
-                    <div>
-                        <ul>{ recordList }</ul>
-                        <ol>{ getPageNation(totalPage) }</ol>
-                    </div> : 
-                    <div>
-                        <p>該当の記事がありません</p>
-                        <Link to="/">トップに戻る</Link>
-                    </div>
-                }
+                <Ssearchbox>
+                <Ssearchtxt>
+                {(() => {
+                    console.log(serchText);
+                })()}
+                    {serchText &&  <p>検索:{serchText}</p>}
+                </Ssearchtxt>
+                    <Ssearch>
+                        <input type="text" onChange={doChange} />
+                        <button onClick={doAction} disabled={!inputText}>serch</button>
+                    </Ssearch>
+                </Ssearchbox>
+                {(() => {
+                    if (postsData.length) {
+                        return(
+                            <div>
+                                <ul>{ recordList }</ul>
+                                <ol>{ getPageNation(totalPage) }</ol>
+                            </div>
+                        )
+                    } else if(!loadFlug) {
+                        return(
+                            <div>
+                                <p>該当の記事がありません</p>
+                                <Link to="/">トップに戻る</Link>
+                            </div>
+                        )
+                    }
+                })()}
             
             </Scontents>
         </article>
     );
 });
+
+const Ssearchbox = styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    p {
+        color: ${Color.whitesmoke};
+    }
+
+`
+
+const Ssearchtxt = styled.div`
+    
+`
+
+const Ssearch = styled.div`
+    
+`

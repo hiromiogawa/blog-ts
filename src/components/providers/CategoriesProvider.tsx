@@ -20,7 +20,7 @@ export const CategorysProvider: FC = props => {
     }
         
     useEffect(() => {
-        getJson(`${apiUrl}categories`);
+        getJson(`${apiUrl}categories?orderby=menu_order`);
     }, []);
 
     return (

@@ -23,7 +23,7 @@ export const PostSerch: FC = memo(() => {
 
     return (
         <>
-            <GetPostList page={Number(page)} perPage={12} category="serch" />
+            <GetPostList page={Number(page)} perPage={12} category="serch" serchText={text} />
         </>
     );
 });
