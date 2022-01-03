@@ -30,7 +30,7 @@ const Sloading = styled.div`
     background-color: ${Color.black01};
 
     span {
-        color: ${Color.white01};
+        color: ${Color.green01};
         font-size: 11px;
         text-indent: -99999em;
         position: absolute;
@@ -40,6 +40,7 @@ const Sloading = styled.div`
         height: 10em;
         box-shadow: inset 0 0 0 1em;
         transform: translateZ(0) translateX(-50%) translateY(-50%);
+        opacity: .5;
     }
     
     span,

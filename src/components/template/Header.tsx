@@ -48,6 +48,13 @@ const Sheader = styled.header`
     h1 {
         font-family: 'OriginalSurfer_Regular';
         font-size: 32px;
+
+        a {
+            color: ${Color.black01};
+            &:hover {
+                color: ${Color.green01};
+            }
+        }
     }
 
 
@@ -70,6 +77,13 @@ const Sheader = styled.header`
 
                 &:not(:last-of-type) {
                     margin-right: 16px;
+                }
+
+                a {
+                    color: ${Color.black01};
+                    &:hover {
+                        color: ${Color.green01};
+                    }
                 }
             }
         }

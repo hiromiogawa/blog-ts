@@ -26,6 +26,7 @@ time, mark, audio, video {
 	border: 0;
 	outline: 0;
 	font-size: 100%;
+	word-wrap: break-word;
 }
 
 html {
@@ -106,6 +107,10 @@ a {
 	vertical-align: baseline;
 	background: transparent;
 	color: ${linkColor};
+}
+
+a:hover {
+	color: ${Color.black01};
 }
 
 * {
