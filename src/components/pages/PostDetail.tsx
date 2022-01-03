@@ -8,7 +8,9 @@ import { useGetCategorySlug } from '../../hook/useGetCategorySlug';
 import { apiUrl } from '../../setting/setting';
 import axios from 'axios';
 import { siteName } from '../../setting/setting';
-import { Color } from '../../style/styleSetting'
+import { Color } from '../../style/styleSetting';
+import { CustomMedia } from '../../style/customMedia';
+
 type urlParams = {
     id: string
 };
@@ -106,7 +108,7 @@ export const PostDetail: FC = memo(() => {
                 
             }
 
-            <Sbutton><Link to="/post/all/1">一覧へ戻る</Link></Sbutton>
+            <Sbutton><Link to="/">一覧へ戻る</Link></Sbutton>
         </Scontents>
     );
 });
@@ -114,6 +116,9 @@ export const PostDetail: FC = memo(() => {
 const Sarticle = styled.article`
     background-color: ${Color.whitesmoke};
     padding: 40px;
+    ${CustomMedia.lessThan("tb")`
+        padding: 16px;
+    `};
 `
 
 const Shead = styled.div`

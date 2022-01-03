@@ -8,6 +8,7 @@ import { useGetCategorySlug } from '../hook/useGetCategorySlug';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Color } from '../style/styleSetting'
+import { CustomMedia } from '../style/customMedia';
 
 type postsDataType = {
     id: number,
@@ -157,7 +158,13 @@ export const GetPostList = memo((props: propsType) => {
     };
 
     const doAction = () => {
-        navigate(`/post/serch/${inputText}/1`);
+        if (inputText) {
+            if (inputText.match(/\//)) {
+                alert("検索に/は使用できません");
+            } else {
+                navigate(`/post/serch/${inputText}/1`);
+            }
+        }
     }   
 
     return (
@@ -197,6 +204,9 @@ const Ssearchbox = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
+    ${CustomMedia.lessThan("tb")`
+        display: block;
+    `};
 
     p {
         color: ${Color.whitesmoke};
@@ -207,6 +217,10 @@ const Ssearchbox = styled.div`
 
 const Ssearchtxt = styled.div`
     font-size: 18px;
+    ${CustomMedia.lessThan("tb")`
+        font-size: 16px;
+        text-align: center;
+    `};
 `
 
 const Ssearch = styled.div`
@@ -265,6 +279,9 @@ const SrecordList = styled.ul`
     > li {
         width: calc((100% - 80px) / 3);
         background-color: ${Color.whitesmoke};
+        ${CustomMedia.lessThan("tb")`
+            width: calc((100% - 24px) / 2);
+        `};
 
         article {
 
@@ -301,12 +318,29 @@ const SrecordList = styled.ul`
             }
         }
 
+        &:not(:nth-of-type(2n)) {
+            ${CustomMedia.lessThan("tb")`
+                margin-right: 24px !important;
+            `};
+        }
+
         &:not(:nth-of-type(3n)) {
             margin-right: 40px;
+            ${CustomMedia.lessThan("tb")`
+                margin-right: 0;
+            `};
+        }
+        &:not(:nth-of-type(-n+2)) {
+            ${CustomMedia.lessThan("tb")`
+                margin-top: 24px !important;
+            `};
         }
 
         &:not(:nth-of-type(-n+3)) {
             margin-top: 40px;
+            ${CustomMedia.lessThan("tb")`
+                margin-top: 0;
+            `};
         }
     }
 
