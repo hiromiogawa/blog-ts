@@ -8,6 +8,8 @@ import { useGetCategorySlug } from '../hook/useGetCategorySlug';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Color } from '../style/styleSetting'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 type postsDataType = {
     id: number,
@@ -74,19 +76,15 @@ export const GetPostList = memo((props: propsType) => {
     const recordList = postsData.map((value,i) => (
         <li key={i}>
             <article>
-            <Link to={`/post/detail/${value.id}`}>
-                <div>
-                    <img src={value.acf.thumb} alt="" />
-                </div>
-                <div>
+                <Link to={`/post/detail/${value.id}`}>
+                    <div><img src={value.acf.thumb} alt="" /></div>
                     <h2>{value.title.rendered}</h2>
-                </div>
-            </Link>
-            <ul>
-                {value.category_name.map((cat, i, []) =>
-                <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
-                )}
-            </ul>
+                </Link>
+                <ul>
+                    {value.category_name.map((cat, i, []) =>
+                    <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
+                    )}
+                </ul>
             </article>
         </li>
     ));
@@ -125,7 +123,7 @@ export const GetPostList = memo((props: propsType) => {
         for(let i = startPage; i <= endPage; i++) {
             if (numberPage == i) {
                 pageNation.push(
-                    <li key={i}>{i}</li>
+                    <li key={i}><span>{i}</span></li>
                 )
             } else if (i == 1) {
                 pageNation.push(
@@ -152,46 +150,42 @@ export const GetPostList = memo((props: propsType) => {
     }   
 
     return (
-        <article>
-            <Scontents>
-                <Ssearchbox>
+        <Scontents>
+            <Ssearchbox>
                 <Ssearchtxt>
-                {(() => {
-                    console.log(serchText);
-                })()}
-                    {serchText &&  <p>検索:{serchText}</p>}
+                    {serchText &&  <p>検索キーワード: {serchText}</p>}
                 </Ssearchtxt>
-                    <Ssearch>
-                        <input type="text" onChange={doChange} />
-                        <button onClick={doAction} disabled={!inputText}>serch</button>
-                    </Ssearch>
-                </Ssearchbox>
-                {(() => {
-                    if (postsData.length) {
-                        return(
-                            <div>
-                                <ul>{ recordList }</ul>
-                                <ol>{ getPageNation(totalPage) }</ol>
-                            </div>
-                        )
-                    } else if(!loadFlug) {
-                        return(
-                            <div>
-                                <p>該当の記事がありません</p>
-                                <Link to="/">トップに戻る</Link>
-                            </div>
-                        )
-                    }
-                })()}
-            
-            </Scontents>
-        </article>
+                <Ssearch>
+                    <input type="text" onChange={doChange} />
+                    <button onClick={doAction} disabled={!inputText}><FontAwesomeIcon icon={faSearch} size='lg' color={Color.whitesmoke} /></button>
+                </Ssearch>
+            </Ssearchbox>
+            {(() => {
+                if (postsData.length) {
+                    return(
+                        <div>
+                            <SrecordList>{ recordList }</SrecordList>
+                            <Spagenavi>{ getPageNation(totalPage) }</Spagenavi>
+                        </div>
+                    )
+                } else if(!loadFlug) {
+                    return(
+                        <div>
+                            <p>該当の記事がありません</p>
+                            <Link to="/">トップに戻る</Link>
+                        </div>
+                    )
+                }
+            })()}
+        
+        </Scontents>
     );
 });
 
 const Ssearchbox = styled.div`
     display: flex;
     justify-content: space-between;
+    margin-bottom: 40px;
 
     p {
         color: ${Color.whitesmoke};
@@ -200,9 +194,141 @@ const Ssearchbox = styled.div`
 `
 
 const Ssearchtxt = styled.div`
-    
+    font-size: 18px;
 `
 
 const Ssearch = styled.div`
+    display: flex;
+    justify-content: center;
     
+    input {
+        cursor: pointer;
+        border: none;
+        background: ${Color.whitesmoke};
+        outline : none;
+        padding: 8px;
+        width: 320px;
+        border: solid 1px ${Color.green01};
+    }
+
+    button {
+        cursor: pointer;
+        background-color: ${Color.green01};
+        width: 40px;
+        border: none;
+    }
+`
+
+const SrecordList = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    
+    
+    > li {
+        width: calc((100% - 80px) / 3);
+        background-color: ${Color.whitesmoke};
+
+        article {
+
+            a {
+                display: block;
+                text-decoration: none;
+            }
+
+            h2 {
+                margin-top: 12px;
+                padding: 0 12px;
+                line-height: 1.4;
+                color: ${Color.black01};
+            }
+
+            > a {
+                transition: .35s;
+
+                div {
+                    overflow: hidden;
+                    transition: .35s;
+                }
+
+                &:hover {
+
+                    img {
+                        filter: drop-shadow(16px 16px 20px red) invert(75%);
+                    }
+                    
+                    h2 {
+                        color: ${Color.green01};
+                    }
+                }
+            }
+        }
+
+        &:not(:nth-of-type(3n)) {
+            margin-right: 40px;
+        }
+
+        &:not(:nth-of-type(-n+3)) {
+            margin-top: 40px;
+        }
+    }
+
+    ul {
+        padding: 12px;
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+
+            a {
+                font-size: 12px;
+                color: ${Color.black01};
+
+                &:hover {
+                    color: ${Color.green01};
+                }
+            }
+
+            &:not(:first-of-type) {
+                margin-left: 8px;
+            }
+        }
+    }
+`
+
+const Spagenavi = styled.ol`
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+
+    a {
+        display: block;
+        text-decoration: none;
+        background-color: ${Color.whitesmoke};
+
+        &:hover {
+            color: ${Color.whitesmoke};
+            background-color: ${Color.green01};
+        }
+    }
+
+    span {
+        color: ${Color.whitesmoke};
+        background-color: ${Color.green01};
+    }
+
+    li {
+        border: solid 1px ${Color.green01};
+
+        > * {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &:not(:last-of-type) {
+            margin-right: 8px;
+        }
+    }
 `

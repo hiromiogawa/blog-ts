@@ -22,7 +22,7 @@ type DeviceType = {
 
 export const Device: DeviceType = {
     pc: 1920,
-    ct: 1280,
+    ct: 1080,
     tb: 768,
     sp: 414
 };
