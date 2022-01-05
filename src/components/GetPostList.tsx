@@ -331,7 +331,7 @@ const SrecordList = styled.ul`
         }
         &:not(:nth-of-type(-n+2)) {
             ${CustomMedia.lessThan("tb")`
-                margin-top: 24px;
+                margin-top: 24px !important;
             `};
         }
 

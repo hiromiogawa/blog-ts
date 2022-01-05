@@ -1,6 +1,7 @@
 import { FC, memo, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CategoriesContext } from '../providers/CategoriesProvider'; 
+import { CategoriesContext } from '../providers/CategoriesProvider';
+import { useWindowDimensions } from '../../hook/useWindowDimensions'; 
 import styled from 'styled-components';
 import { Scontents } from '../../style/commonStyle';
 import { Color } from '../../style/styleSetting';
@@ -9,15 +10,19 @@ import { CustomMedia } from '../../style/customMedia';
 export const Header: FC = memo(() => {
     const categories = useContext(CategoriesContext);
     const [ menuFlug, setMenuFlug ] = useState<boolean>(false);
+    const breakPoint = 768;
+    const { width } = useWindowDimensions();
 
     const categoryList = categories.map((value,i) => (
         <li key={i}>
-            <Link to={`/post/${value.slug}/1`}>{value.name}</Link>
+            <Link to={`/post/${value.slug}/1`} onClick={() => onClickMenu()}>{value.name}</Link>
         </li>
     ));
 
     const onClickMenu = () => {
-        setMenuFlug(!menuFlug);
+        if (width < breakPoint) {
+            setMenuFlug(!menuFlug);
+        }
     }
 
     return (
@@ -26,7 +31,7 @@ export const Header: FC = memo(() => {
                 <h1><Link to="/">HIROMEMO</Link></h1>
                 <Snav flug={ menuFlug }>
                     <ul>
-                        <li><Link to="/">All</Link></li>
+                        <li><Link to="/" onClick={() => onClickMenu()}>All</Link></li>
                         { categoryList }
                     </ul>
                 </Snav>
