@@ -1,5 +1,5 @@
 import { FC, useContext, memo } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import { LoadFlugContext } from './providers/LoadFlugProvider';
 import { Loading } from './template/Loading';
@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { PostList } from './pages/PostList';
 import { PostSerch } from './pages/PostSerch';
 import { PostDetail } from './pages/PostDetail';
+import { NotFound } from './pages/NotFound';
 import { Footer } from './template/Footer';
 
 export const App: FC = memo(() => {
@@ -24,7 +25,7 @@ export const App: FC = memo(() => {
                         <Route path='/post/:category/:page' element={<PostList/>} />
                         <Route path='/post/serch/:text/:page' element={<PostSerch/>} />
                         <Route path='/post/detail/:id' element={<PostDetail/>} />
-                        {/*<Navigate to='/404' />*/}
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>
                 <Footer />
