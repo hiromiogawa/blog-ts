@@ -1,7 +1,7 @@
 import { FC, memo, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CategoriesContext } from '../providers/CategoriesProvider'; 
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Scontents } from '../../style/commonStyle';
 import { Color } from '../../style/styleSetting';
 import { CustomMedia } from '../../style/customMedia';
@@ -9,7 +9,6 @@ import { CustomMedia } from '../../style/customMedia';
 export const Header: FC = memo(() => {
     const categories = useContext(CategoriesContext);
     const [ menuFlug, setMenuFlug ] = useState<boolean>(false);
-
 
     const categoryList = categories.map((value,i) => (
         <li key={i}>
@@ -34,7 +33,7 @@ export const Header: FC = memo(() => {
                 <SmenuButton flug={ menuFlug } onClick={() => onClickMenu()}>
                     <span></span><span></span><span></span>
                 </SmenuButton>
-                </Scontents>
+            </Scontents>
         </Sheader>
     );
 });

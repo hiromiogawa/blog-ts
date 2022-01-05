@@ -9,20 +9,24 @@ export const FontStyles = createGlobalStyle`
 @font-face {
     font-family: 'NotoSerifJPMedium';
     src: url(${NotoSerifJPMedium}) format('woff');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'RalewayBold';
     src: url(${RalewayBold}) format('woff');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'RalewayMedium';
     src: url(${RalewayMedium}) format('woff');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'OriginalSurfer_Regular';
     src: url(${OriginalSurfer_Regular}) format('woff2');
+    font-display: swap;
 }
 `;

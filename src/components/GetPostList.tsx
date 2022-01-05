@@ -41,7 +41,6 @@ export const GetPostList = memo((props: propsType) => {
     const [ url, setUrl ] = useState<string>();
     const [ inputText, setInputText ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType[]>([]);
-    const [ serchHOver, setSerchHover ] = useState<boolean>();
     const { getCategorySlug } = useGetCategorySlug();
     const navigate = useNavigate();
 
