@@ -62,7 +62,7 @@ export const GetPostList = memo((props: propsType) => {
             } else if (category == 'all') {
                 setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}`);
             } else if (category == "serch") {
-                setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}&search=${inputText}`);
+                setUrl(`${apiUrl}posts?per_page=${perPage}&page=${page}&search=${serchText}`);
             }
         }
     }, [categories, page, category, serchText]);
@@ -332,7 +332,7 @@ const SrecordList = styled.ul`
         }
         &:not(:nth-of-type(-n+2)) {
             ${CustomMedia.lessThan("tb")`
-                margin-top: 24px !important;
+                margin-top: 24px;
             `};
         }
 

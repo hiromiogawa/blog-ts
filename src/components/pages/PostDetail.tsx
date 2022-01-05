@@ -256,6 +256,7 @@ const Scontent = styled.div`
     table {
         width: 100%;
         border-bottom: solid 1px ${Color.green01};
+        table-layout: fixed;
 
         tr {
             border: solid 1px ${Color.green01};
