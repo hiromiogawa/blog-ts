@@ -1,7 +1,8 @@
-import { FC, memo, useEffect } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { GetPostList } from '../GetPostList';
 import { siteName } from '../../setting/setting';
+import { Head } from '../template/Head';
 
 type urlParams = {
     page: string,
@@ -10,18 +11,16 @@ type urlParams = {
 
 export const PostList: FC = memo(() => {
     const { page, category } = useParams<urlParams>();
-    const { pathname } = useLocation();
+    const [title, setTitle] = useState<string>();
 
     useEffect(() => {
-        document.title = `${category} | ${siteName}`;
-        window.gtag('config', 'G-GCE0NCNRNG', {
-			'page_path': pathname
-		});
+        setTitle(`${category} | ${page} |  ${siteName}`);
     }, [ page, category ])
 
 
     return (
         <>
+            <Head title={title as string} ogtype="website" />
             <GetPostList page={Number(page)} perPage={12} category={category as string} />
         </>
     );

@@ -10,6 +10,8 @@ import axios from 'axios';
 import { siteName } from '../../setting/setting';
 import { Color } from '../../style/styleSetting';
 import { CustomMedia } from '../../style/customMedia';
+import { Head } from '../template/Head';
+import { Helmet } from 'react-helmet';
 
 type urlParams = {
     id: string
@@ -38,9 +40,9 @@ export const PostDetail: FC = memo(() => {
     const { setLoadFlug } = useContext(LoadFlugContext);
     const { getCategorySlug } = useGetCategorySlug();
     const [ url, setUrl ] = useState<string>();
+    const [ title, setTitle ] = useState<string>();
     const [ postsData, setPostsData ] = useState<postsDataType>();
     const { id } = useParams<urlParams>();
-    const { pathname } = useLocation();
 
     const getJson = (url: string) => {
         axios.get(url).then((res) => {
@@ -65,11 +67,9 @@ export const PostDetail: FC = memo(() => {
     }, [url]);
 
     useEffect(() => {
+
         if (postsData) {
-            document.title = `${postsData.title.rendered} | ${siteName}`;
-            window.gtag('config', 'G-GCE0NCNRNG', {
-                'page_path': pathname
-            });
+            setTitle(`${postsData.title.rendered} | ${siteName}`);
         };
     }, [postsData]);
 
@@ -85,31 +85,34 @@ export const PostDetail: FC = memo(() => {
 
 
     return (
-        <Scontents>
-            {postsData && 
-                <Sarticle>
-                    <Shead>
-                        <Sdate>
-                            <p>投稿日: {dateCompaile(postsData.date)}</p>
-                            {(() => {
-                                if(dateCompaile(postsData.date) != dateCompaile(postsData.modified)) {
-                                    return <p>更新日: {dateCompaile(postsData.modified)}</p>
-                                }
-                            })()}
-                        </Sdate>
-                        <h1>{postsData.title.rendered}</h1>
-                        <ul>{postsData.category_name.map((cat, i) =>
-                            <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
-                        )}</ul>
-                    </Shead>
+        <>
+            <Head title={title as string} ogtype="article" />
+            <Scontents>
+                {postsData && 
+                    <Sarticle>
+                        <Shead>
+                            <Sdate>
+                                <p>投稿日: {dateCompaile(postsData.date)}</p>
+                                {(() => {
+                                    if(dateCompaile(postsData.date) != dateCompaile(postsData.modified)) {
+                                        return <p>更新日: {dateCompaile(postsData.modified)}</p>
+                                    }
+                                })()}
+                            </Sdate>
+                            <h1>{postsData.title.rendered}</h1>
+                            <ul>{postsData.category_name.map((cat, i) =>
+                                <li key={i}><Link to={`/post/${getCategorySlug(cat)}/1`}>{cat}</Link></li>
+                            )}</ul>
+                        </Shead>
+                        
+                        <Scontent dangerouslySetInnerHTML={{ __html: postsData.content.rendered }} />
+                    </Sarticle>
                     
-                    <Scontent dangerouslySetInnerHTML={{ __html: postsData.content.rendered }} />
-                </Sarticle>
-                
-            }
+                }
 
-            <Sbutton><Link to="/">一覧へ戻る</Link></Sbutton>
-        </Scontents>
+                <Sbutton><Link to="/">一覧へ戻る</Link></Sbutton>
+            </Scontents>
+        </>
     );
 });
 

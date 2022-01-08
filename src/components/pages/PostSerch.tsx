@@ -1,7 +1,8 @@
-import { FC, memo, useEffect } from 'react';
+import { FC, memo, useEffect,useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { GetPostList } from '../GetPostList';
 import { siteName } from '../../setting/setting';
+import { Head } from '../template/Head';
 
 type urlParams = {
     page: string,
@@ -10,19 +11,17 @@ type urlParams = {
 
 export const PostSerch: FC = memo(() => {
     const { page, text } = useParams<urlParams>();
-    const { pathname } = useLocation();
+    const [ title, setTitle ] = useState<string>();
 
 
     useEffect(() => {
-        document.title = `${text} | 検索 | ${siteName}`;
-        window.gtag('config', 'G-GCE0NCNRNG', {
-			'page_path': pathname
-		});
+        setTitle(`${text} | ${page} | 検索 | ${siteName}`);
     }, [ page, text ])
 
 
     return (
         <>
+            <Head title={title as string} ogtype="website" />
             <GetPostList page={Number(page)} perPage={12} category="serch" serchText={text} />
         </>
     );
