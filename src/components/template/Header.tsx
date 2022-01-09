@@ -6,10 +6,11 @@ import styled from 'styled-components';
 import { Scontents } from '../../style/commonStyle';
 import { Color } from '../../style/styleSetting';
 import { CustomMedia } from '../../style/customMedia';
+import { MenuFlugContext } from '../providers/MenuFlugProvider';
 
 export const Header: FC = memo(() => {
     const categories = useContext(CategoriesContext);
-    const [ menuFlug, setMenuFlug ] = useState<boolean>(false);
+    const { menuFlug, setMenuFlug } = useContext(MenuFlugContext);
     const breakPoint = 768;
     const { width } = useWindowDimensions();
 

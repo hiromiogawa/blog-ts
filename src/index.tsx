@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { LoadFlugProvider } from './components/providers/LoadFlugProvider';
 import { createGlobalStyle } from 'styled-components';
 import { CategorysProvider } from './components/providers/CategoriesProvider';
+import { MenuFlugProvider } from './components/providers/MenuFlugProvider';
 import { App } from './components/App';
 import { FontStyles } from "./style/fontStyle";
 import { reset } from './style/reset'
@@ -17,12 +18,14 @@ const ResetStyle = createGlobalStyle`
 ReactDOM.render((
     <BrowserRouter>
       <LoadFlugProvider>
-        <CategorysProvider>
-          <ResetStyle />
-          <FontStyles />
-          <ScrollToTop />
-          <App />
-        </CategorysProvider>
+        <MenuFlugProvider>
+          <CategorysProvider>
+            <ResetStyle />
+            <FontStyles />
+            <ScrollToTop />
+            <App />
+          </CategorysProvider>
+        </MenuFlugProvider>
       </LoadFlugProvider>
     </BrowserRouter>
 ), document.getElementById('root'));
