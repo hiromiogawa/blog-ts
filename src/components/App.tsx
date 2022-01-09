@@ -11,6 +11,7 @@ import { PostSerch } from './pages/PostSerch';
 import { PostDetail } from './pages/PostDetail';
 import { NotFound } from './pages/NotFound';
 import { Footer } from './template/Footer';
+import { CustomMedia } from '../style/customMedia';
 
 export const App: FC = memo(() => {
     const { loadFlug } = useContext(LoadFlugContext);
@@ -44,6 +45,8 @@ type loadFlug = {
 
 const Sapp = styled.div<loadFlug>`
     display: ${(props) => props.flug ? 'none': 'block'};
-    overflow: ${(props) => props.menuFlug ? 'hidden': 'visible'};
-    max-height: ${(props) => props.menuFlug ? '100vh': 'auto'};
+    ${( props ) => CustomMedia.lessThan('tb')`
+        overflow: ${props.menuFlug ? 'hidden': 'visible'};
+        max-height: ${ props.menuFlug ? '100vh': 'auto'};
+    `};
 `

@@ -9,7 +9,7 @@ export const MenuFlugContext = createContext<LoadFlugType>({ menuFlug: false, se
 export const MenuFlugProvider: FC = props => {
     const { children } = props;
     
-    const [ menuFlug, setMenuFlug ] = useState(true);
+    const [ menuFlug, setMenuFlug ] = useState(false);
 
     return (
         <MenuFlugContext.Provider value={{ menuFlug, setMenuFlug }}>
